@@ -2,9 +2,10 @@ import Image from "next/image";
 import { getWikiSummary } from "@/lib/wikipedia";
 
 export default async function Home() {
-  const chipData = await getWikiSummary("Intel_80486");
-  const cableData = await getWikiSummary("Ribbon_cable");
-  const tubeData = await getWikiSummary("Vacuum_tube");
+  // Fetch with fallbacks
+  const chipData = await getWikiSummary("Intel_80486").catch(() => null) || "The Intel 486, officially named i486 and also known as 80486, is a higher-performance follow-up to the Intel 386 microprocessor. Introduced in 1989, it was the first tightly integrated x86 design.";
+  const cableData = await getWikiSummary("Ribbon_cable").catch(() => null) || "A ribbon cable is a cable with many conducting wires running parallel to each other on the same flat plane. As a result the cable is wide and flat. Its name comes from its resemblance to a piece of ribbon.";
+  const tubeData = await getWikiSummary("Vacuum_tube").catch(() => null) || "A vacuum tube is a device that controls electric current flow in a high vacuum between electrodes to which an electric potential difference has been applied. It was the foundation of early electronics.";
 
   const specs = [
     {
@@ -111,13 +112,27 @@ export default async function Home() {
         ))}
       </div>
 
+      {/* System Status Log - NEW Content */}
+      <div className="max-w-7xl mx-auto w-full mb-24">
+        <div className="border border-gray-800 bg-black/20 p-6 font-mono">
+          <div className="text-[#FFB000] text-xs mb-4 uppercase tracking-[0.3em]\">System_Telemetry_Log</div>
+          <div className="space-y-1 text-[11px] text-gray-500">
+            <p>[OK] INITIALIZING ARCHIVE ACCESS...</p>
+            <p>[OK] LOADING SILICON_SOUL_MODULES...</p>
+            <p>[OK] FETCHING HISTORICAL_DATA_STREAM...</p>
+            <p className="text-[#FFB000]">[WARN] ANALOG_JITTER DETECTED IN SECTOR 4</p>
+            <p>[OK] HANDSHAKE_PROTOCOL SUCCESSFUL</p>
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <footer className="mt-auto py-12 border-t border-gray-900 text-center font-mono">
-        <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-2">
-          <span>DEVELOPED BY</span>
-          <a href="https://github.com/arananet" className="text-[#FFB000] hover:underline underline-offset-4">EDUARDO ARANA</a>
-          <span>&</span>
-          <span className="text-[#FFB000] flex items-center">SODA <span className="ml-1">🥤</span></span>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-sm text-gray-500 mb-2">
+          <span className="opacity-50">DEVELOPED BY</span>
+          <a href="https://github.com/arananet" className="text-[#FFB000] hover:underline underline-offset-4 font-bold">EDUARDO ARANA</a>
+          <span className="hidden md:inline">&</span>
+          <span className="text-[#FFB000] flex items-center font-bold">SODA <span className="ml-1">🥤</span></span>
         </div>
         <p className="text-[10px] text-gray-700 tracking-[0.2em] uppercase">
           Hardware Vault // Archive Node 001 // San Francisco Protocol
